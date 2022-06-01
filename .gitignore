@@ -27,3 +27,10 @@ hs_err_pid*
 /.idea/jarRepositories.xml
 /.idea/misc.xml
 /.idea/vcs.xml
+/target/test-project/META-INF/MANIFEST.MF
+/target/test-project/WEB-INF/classes/main/webapp/index.jsp
+/target/test-project/index.jsp
+/target/test-project/WEB-INF/classes/main/webapp/WEB-INF/web.xml
+/target/test-project/WEB-INF/web.xml
+/.idea/runConfigurations/index_jsp.xml
+/target/test-project/META-INF/context.xml
