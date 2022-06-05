@@ -34,3 +34,9 @@ hs_err_pid*
 /target/test-project/WEB-INF/web.xml
 /.idea/runConfigurations/index_jsp.xml
 /target/test-project/META-INF/context.xml
+/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+/target/maven-archiver/pom.properties
+/.idea/artifacts/test_project_ear_exploded.xml
+/.idea/webContexts.xml
+/target/test-project/META-INF/resources/startpage.xhtml
