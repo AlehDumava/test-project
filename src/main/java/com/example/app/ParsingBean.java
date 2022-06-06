@@ -4,7 +4,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import java.io.Serializable;
 
-@ManagedBean(name = "obj")
+@ManagedBean(name = "name")
 @SessionScoped
 public class ParsingBean implements Serializable {
 
@@ -17,4 +17,5 @@ public class ParsingBean implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
 }
