@@ -40,3 +40,6 @@ hs_err_pid*
 /.idea/artifacts/test_project_ear_exploded.xml
 /.idea/webContexts.xml
 /target/test-project/META-INF/resources/startpage.xhtml
+/.idea/libraries/PrimeFaces_6_1.xml
+/.idea/runConfigurations/Test_project.xml
+/.idea/uiDesigner.xml

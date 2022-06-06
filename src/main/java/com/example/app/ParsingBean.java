@@ -18,4 +18,6 @@ public class ParsingBean implements Serializable {
         this.name = name;
     }
 
+
+
 }
