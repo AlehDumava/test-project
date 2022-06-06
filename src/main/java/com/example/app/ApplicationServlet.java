@@ -1,11 +1,11 @@
 package com.example.app;
 
-
-
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class ApplicationServlet extends HttpServlet {
 
@@ -20,10 +20,21 @@ public class ApplicationServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        System.out.println("+++++++ Start servlet after doPost +++++++");
+
+        PrintWriter writer = response.getWriter();
+        String name = request.getParameter("name");
+        ParsingURL.parsingURL(name);
+
+        try {
+            writer.println("<p>Name: " + name + "</p>");
+
+        } finally {
+            writer.close();
+        }
 
     }
 
