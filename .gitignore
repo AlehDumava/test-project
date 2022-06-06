@@ -34,3 +34,9 @@ hs_err_pid*
 /target/test-project/WEB-INF/web.xml
 /.idea/runConfigurations/index_jsp.xml
 /target/test-project/META-INF/context.xml
+/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst
+/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
+/target/maven-archiver/pom.properties
+/.idea/libraries/PrimeFaces_6_1.xml
+/.idea/runConfigurations/Test_project.xml
+/.idea/uiDesigner.xml
