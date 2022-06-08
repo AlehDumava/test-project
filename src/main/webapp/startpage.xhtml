@@ -7,46 +7,54 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        <link rel="stylesheet" type="text/css" href="resources/css/styles.css"/>
-        <h:outputStylesheet value="css/styles.css"/>
-        <h:outputStylesheet library="css" name="styles.css"/>
         <title>Test-project</title>
     </h:head>
 
-    <p:panel id="header" header="Test project for parsing URL" styleClass="headers-region">
-        <f:facet name="footer">
-            <h:outputText value="Footer Text" />
-        </f:facet>
-        <h:commandButton value="Анализировать" action="#{parsingURL.parsingURL}"
-                         style="border-bottom-color: aqua"/>
+    <p:panel id="header" header="Test project for parsing URL" styleClass="header-panel" style="text-align: center">
+        <h:form id="parsingForm">
+            <div>
+                <h:outputText value="Enter URL for parsing: "/>
+                <p:inputText value="#{name.name}" placeholder="Enter URL" />
+            </div>
+            <h:commandButton value="Анализировать" action="#{name.parsing(name.name)}" ajax="true"> <br/>
+<!--                <f:ajax execute="parsingForm" update=":parsingForm:msgs"/>-->
+            </h:commandButton>
+            <h2> URL: #{name.name} </h2>
+            <h2> Total count links: #{name.counter}</h2>
+        </h:form>
     </p:panel>
-
-
-
-
 
     <h:body>
         <h:form>
-            <h:outputText value="Enter URL for parsing: "/>
-                <p:inputText value="#{name.name}" />
-            <h:commandButton value="Parsing" action="#{parsingURL.parsingURL}"
-                             style="border-bottom-color: aqua"/>
-        </h:form>
-    </h:body>
+            <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+            <div class="links">
+                <p:dataTable var="linkURL"
+                             value="#{name.link}"
+                             paginator="true"
+                             rows="6"
+                             rowKey="#{linkURL.id}"
+                             selectionMode="single"
+                             resizableColumns="true"
+                             showGridlines="true">
 
-    <h:dataTable value="#{name.name}" var="item">
-        <h:column>
-            <f:facet name="header">
-                <h:outputText value="Number" />
-            </f:facet>
-            <h:outputText value="#{name.name}" />
-        </h:column>
-        <h:column>
-            <f:facet name="header">
-                <h:outputText value="Description" />
-            </f:facet>
-            <h:outputText value="#{name.name}" />
-        </h:column>
-    </h:dataTable>
+                    <f:facet name="header" >
+                        <h3> Обнаруженные ссылки </h3>
+                    </f:facet>
+
+                    <p:column headerText="№ п/п">
+                        <h:outputText value="#{linkURL.id}"/>
+                    </p:column>
+                    <p:column headerText="Имя ссылки">
+                        <h:outputText value="#{linkURL.name}"/>
+                    </p:column>
+                    <p:column headerText="Адрес ссылки">
+                        <h:outputText value="#{linkURL.url}"/>
+                    </p:column>
+                </p:dataTable>
+            </div>
+                <h:commandButton value="Очистить"  ajax="true" />
+        </h:form>
+
+    </h:body>
 
 </html>

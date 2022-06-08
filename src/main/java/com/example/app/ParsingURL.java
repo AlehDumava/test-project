@@ -13,19 +13,17 @@ import java.io.IOException;
 @ViewScoped
 public class ParsingURL {
 
-    public static void parsingURL() {
-        try {
-            Document document = Jsoup.connect("http://www.yandex.ru").get();
+    public static void parsing(String url) throws IOException {
 
-            Elements link = document.select("a[href]");
+        Document doc = Jsoup.connect(url)
+                .userAgent("Chrome/4.0.249.0 Safari/532.5")
+                .referrer("http://www.google.com")
+                .get();
 
-            for (Element element : link.select("a")) {
-                System.out.println("Link: " + element.attr("abs:href"));
-                System.out.println("Text: " + element.text());
-                System.out.println("--------------- а --------------");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        Elements list = doc.select("a[href]");
+
+        for (Element element : list.select("a")) {
+            System.out.println(element.text());
         }
     }
 }
