@@ -27,7 +27,7 @@ public class ApplicationServlet extends HttpServlet {
 
         PrintWriter writer = response.getWriter();
         String name = request.getParameter("name");
-        ParsingURL.parsingURL(name);
+        ParsingURL.parsingURL();
 
         try {
             writer.println("<p>Name: " + name + "</p>");

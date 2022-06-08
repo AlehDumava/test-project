@@ -7,15 +7,46 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
+        <link rel="stylesheet" type="text/css" href="resources/css/styles.css"/>
+        <h:outputStylesheet value="css/styles.css"/>
+        <h:outputStylesheet library="css" name="styles.css"/>
         <title>Test-project</title>
     </h:head>
+
+    <p:panel id="header" header="Test project for parsing URL" styleClass="headers-region">
+        <f:facet name="footer">
+            <h:outputText value="Footer Text" />
+        </f:facet>
+        <h:commandButton value="Анализировать" action="#{parsingURL.parsingURL}"
+                         style="border-bottom-color: aqua"/>
+    </p:panel>
+
+
+
+
 
     <h:body>
         <h:form>
             <h:outputText value="Enter URL for parsing: "/>
-                <p:inputText value="#{name.name}" /> <br/>
-            <h:commandButton value="Send" action="index"/>
+                <p:inputText value="#{name.name}" />
+            <h:commandButton value="Parsing" action="#{parsingURL.parsingURL}"
+                             style="border-bottom-color: aqua"/>
         </h:form>
     </h:body>
+
+    <h:dataTable value="#{name.name}" var="item">
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Number" />
+            </f:facet>
+            <h:outputText value="#{name.name}" />
+        </h:column>
+        <h:column>
+            <f:facet name="header">
+                <h:outputText value="Description" />
+            </f:facet>
+            <h:outputText value="#{name.name}" />
+        </h:column>
+    </h:dataTable>
 
 </html>
