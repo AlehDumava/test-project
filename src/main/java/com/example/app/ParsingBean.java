@@ -6,13 +6,13 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.bean.RequestScoped;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
 @ManagedBean(name = "name")
-@SessionScoped
+@RequestScoped
 public class ParsingBean implements Serializable {
 
     private String name;
@@ -20,9 +20,7 @@ public class ParsingBean implements Serializable {
 
     private static ArrayList<Link> link = new ArrayList<Link>();
 
-    public int getCounter() {
-        return counter;
-    }
+    private Link selectedLink;
 
     public void parsing(String url) {
         counter = 0;
@@ -30,6 +28,8 @@ public class ParsingBean implements Serializable {
         try {
             Document doc = Jsoup.connect(url).get();
             Elements list = doc.select("a[href]");
+
+            Thread.sleep(2000);
 
             for (Element element : list.select("a")) {
                 counter++;
@@ -43,7 +43,14 @@ public class ParsingBean implements Serializable {
             System.out.println("Total count: " + counter);
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+    }
+
+    public void clearForm() {
+        counter = 0;
+        link.clear();
     }
 
     public ParsingBean() {
@@ -65,6 +72,30 @@ public class ParsingBean implements Serializable {
         this.name = name;
     }
 
+    public Link getSelectedLink() {
+        System.out.println("Get Selected Link: " + selectedLink);
+        return selectedLink;
+    }
 
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
 
+    public void setSelectedLink(Link selectedLink) {
+        System.out.println("Set Selected Link: " + selectedLink);
+        this.selectedLink = selectedLink;
+    }
+
+    public int getCounter() {
+        return counter;
+    }
+
+    @Override
+    public String toString() {
+        return "ParsingBean{" +
+                "name='" + name + '\'' +
+                ", counter=" + counter +
+                ", selectedLink=" + selectedLink +
+                '}';
+    }
 }

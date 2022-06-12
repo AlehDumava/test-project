@@ -10,35 +10,75 @@
         <title>Test-project</title>
     </h:head>
 
-    <p:panel id="header" header="Test project for parsing URL" styleClass="header-panel" style="text-align: center">
-        <h:form id="parsingForm">
-            <div>
-                <h:outputText value="Enter URL for parsing: "/>
-                <p:inputText value="#{name.name}" placeholder="Enter URL" />
-            </div>
-            <h:commandButton value="Анализировать" action="#{name.parsing(name.name)}" ajax="true"> <br/>
-<!--                <f:ajax execute="parsingForm" update=":parsingForm:msgs"/>-->
-            </h:commandButton>
-            <h2> URL: #{name.name} </h2>
-            <h2> Total count links: #{name.counter}</h2>
-        </h:form>
+    <style type="text/css">
+        .loading-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+        }
+    </style>
+
+    <p:panel id="header"
+             header="Test project for parsing URL"
+             styleClass="header-panel"
+             style="text-align: center">
+
+
+
+        <div class="p-field p-grid">
+            <h:form id="parsingForm">
+                <p:growl id="messages" showDetail="true" closable="true">
+                        <p:autoUpdate/>
+                </p:growl>
+                    <h:outputText value="Enter URL for parsing: " style="font-weight: bold"/>
+                    <p:inputText id="inputURL"
+                                 value="#{name.name}"
+                                 required="true"
+                                 placeholder="Enter URL">
+                    </p:inputText>
+                    <h:commandButton id="findButton"
+                                 value="Анализировать"
+                                 styleClass="p-mt-3"
+                                 action="#{name.parsing(name.name)}"
+                                 update="messages"
+                                 icon="pi pi-check"
+                                ajax="true">
+
+                    </h:commandButton>
+
+                <h2> URL: #{name.name} </h2>
+                <h2> Total count links: #{name.counter}</h2>
+
+                <h:outputText value="Selected Link:"/>
+                <h:outputText id="setLink" value="#{name.selectedLink}">
+                </h:outputText>
+
+            </h:form>
+        </div>
     </p:panel>
 
     <h:body>
-        <h:form>
-            <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
-            <div class="links">
-                <p:dataTable var="linkURL"
+        <div class="links">
+            <h:form id="myForm">
+
+                <p:dataTable id="linkTable"
+                             var="linkURL"
                              value="#{name.link}"
                              paginator="true"
                              rows="6"
                              rowKey="#{linkURL.id}"
                              selectionMode="single"
+                             selection="#{name.selectedLink}"
                              resizableColumns="true"
-                             showGridlines="true">
+                             showGridlines="true"
+                             paginatorPosition="top">
+                    <p:ajax event="rowSelect"
+                            update="parsingForm"
+                            action="#{name.parsing(linkURL.name)}"/>
 
                     <f:facet name="header" >
-                        <h3> Обнаруженные ссылки </h3>
+                        <h:outputText value="Обнаруженные ссылки"
+                                      styleClass="header-panel"
+                                      style="text-align: center"/>
                     </f:facet>
 
                     <p:column headerText="№ п/п">
@@ -50,11 +90,34 @@
                     <p:column headerText="Адрес ссылки">
                         <h:outputText value="#{linkURL.url}"/>
                     </p:column>
-                </p:dataTable>
-            </div>
-                <h:commandButton value="Очистить"  ajax="true" />
-        </h:form>
 
+                </p:dataTable>
+
+                <h:commandButton id="clearButton"
+                                 value="Очистить"
+                                 action="#{name.clearForm()}"
+                                 update="linkTable"
+                                 onstart="PF('statusDialog').show()"
+                                 oncomplete="PF('statusDialog').hide()"
+                                 ajax="true">
+                </h:commandButton>
+            </h:form>
+        </div>
     </h:body>
+
+    <div class="card text-area">
+        <p:dialog widgetVar="statusDialog"
+                  modal="true"
+                  draggable="false"
+                  closable="false"
+                  resizable="false"
+                  showHeader="false"
+                  width="70"
+                  height="70">
+            <div class="p-text-center">
+                <i class="pi pi-spinner pi-spinner loading-icon"></i>
+            </div>
+        </p:dialog>
+    </div>
 
 </html>
