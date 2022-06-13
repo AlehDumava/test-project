@@ -4,9 +4,12 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.primefaces.event.SelectEvent;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,11 +19,12 @@ import java.util.ArrayList;
 public class ParsingBean implements Serializable {
 
     private String name;
-    private int counter=0;
+    private int counter = 0;
 
     private static ArrayList<Link> link = new ArrayList<Link>();
 
     private Link selectedLink;
+    private String onSelectedLink;
 
     public void parsing(String url) {
         counter = 0;
@@ -29,21 +33,12 @@ public class ParsingBean implements Serializable {
             Document doc = Jsoup.connect(url).get();
             Elements list = doc.select("a[href]");
 
-            Thread.sleep(2000);
-
             for (Element element : list.select("a")) {
                 counter++;
-
                 link.add(new Link(counter, element.text(), element.attr("abs:href")));
-
-                System.out.println("Count: " + counter);
-                System.out.println("Link: " + element.attr("abs:href"));
-                System.out.println("Name: " + element.text());
             }
             System.out.println("Total count: " + counter);
         } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
@@ -51,6 +46,7 @@ public class ParsingBean implements Serializable {
     public void clearForm() {
         counter = 0;
         link.clear();
+        selectedLink = null;
     }
 
     public ParsingBean() {
@@ -73,7 +69,6 @@ public class ParsingBean implements Serializable {
     }
 
     public Link getSelectedLink() {
-        System.out.println("Get Selected Link: " + selectedLink);
         return selectedLink;
     }
 
@@ -82,12 +77,34 @@ public class ParsingBean implements Serializable {
     }
 
     public void setSelectedLink(Link selectedLink) {
-        System.out.println("Set Selected Link: " + selectedLink);
         this.selectedLink = selectedLink;
     }
 
     public int getCounter() {
         return counter;
+    }
+
+    public void onComplete() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Progress Completed"));
+    }
+
+    public void linkIsAdd() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Link URL was added"));
+    }
+
+    public void onRowSelect(SelectEvent<Link> event) {
+        FacesMessage msg = new FacesMessage("Link Selected", String.valueOf(event.getObject().getUrl()));
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        setName(event.getObject().getUrl());
+        linkIsAdd();
+    }
+
+    public String getOnSelectedLink() {
+        if(selectedLink != null) {
+            return onSelectedLink = String.valueOf(selectedLink.getUrl());
+        } else {
+            return "Link not selected";
+        }
     }
 
     @Override
